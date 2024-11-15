@@ -1,0 +1,87 @@
+version: '3'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: docker/php/Dockerfile
+            args:
+                user: "${SYSTEM_USER}"
+                uid: 1000
+        container_name: "${APP_NAME}-app"
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "9000:9000"
+            - "5173:5173"
+        depends_on:
+            - mysql
+        working_dir: /var/www/html
+        environment:
+            APP_ENV: "${APP_ENV}"
+        volumes:
+            - '.:/var/www/html'
+        networks:
+            - app-network
+
+    nginx:
+        image: nginx:latest
+        container_name: "${APP_NAME}-nginx"
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "80:80"
+        volumes:
+            - '.:/var/www/html'
+            - './docker/nginx/conf.d:/etc/nginx/conf.d'
+        depends_on:
+            - app
+        networks:
+            - app-network
+
+    mysql:
+        image: mysql:8.1
+        container_name: "${APP_NAME}-db"
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "33061:3306"
+        environment:
+            MYSQL_DATABASE: ${DB_DATABASE}
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            SERVICE_NAME: mysql
+        volumes:
+            - './docker/volume/mysql:/var/lib/mysql'
+        networks:
+            - app-network
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        container_name: "${APP_NAME}-phpmyadmin"
+        ports:
+            - "9090:80"
+        depends_on:
+            - mysql
+        environment:
+            - PMA_HOST=mysql
+            - PMA_PORT=3306
+        networks:
+            - app-network
+
+    mail:
+        image: axllent/mailpit:latest
+        container_name: "${APP_NAME}-mailpit"
+        ports:
+            - "8025:8025"
+            - "1025:1025"
+        networks:
+            - app-network
+
+
+networks:
+    app-network:
+        driver: bridge
+
+volumes:
+    mysql:
+
