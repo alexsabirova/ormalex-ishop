@@ -1,46 +1,55 @@
 <?php
 
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use Laravel\Socialite\Facades\Socialite;
 
 Route::get('/', HomeController::class)->name('home');
 
-Route::controller(AuthController::class)->group(function () {
-    Route::get('/login', 'index')->name('login');
-    Route::post('/sign-in', 'signIn')->name('signIn');
+Route::controller(LoginController::class)->group(function () {
+    Route::get('/login', 'page')->name('login');
+    Route::post('/login', 'handle')->name('login.handle');
+    Route::delete('/logout', 'logout')->name('logout');
+});
 
-    Route::get('/register', 'register')->name('register');
-    Route::post('/sign-up', 'signUp')->name('signUp');
+Route::controller(RegisterController::class)->group(function () {
+    Route::get('/register', 'page')->name('register');
+    Route::post('/register', 'handle')->name('register.handle');
+});
 
-
-    Route::get('/forgot-password', 'forgot')
+Route::controller(ForgotPasswordController::class)->group(function () {
+    Route::get('/forgot-password', 'page')
         ->middleware('guest')
         ->name('forgot');
 
-    Route::post('/forgot-password', 'forgotPassword')
+    Route::post('/forgot-password', 'handle')
         ->middleware('guest')
-        ->name('forgot-password');
+        ->name('forgot.handle');
+});
 
-    Route::get('/reset-password/{token}', 'reset')
+
+Route::controller(ResetPasswordController::class)->group(function () {
+    Route::get('/reset-password/{token}', 'page')
         ->middleware('guest')
         ->name('password.reset');
 
-    Route::post('/reset-password', 'resetPassword')
+    Route::post('/reset-password', 'handle')
         ->middleware('guest')
-        ->name('password-reset');
-
-    Route::delete('/logout', 'logout')->name('logout');
-
-
-    Route::get('/auth/socialite/github', 'redirect')
-        ->name('socialite.redirect');
-
-    Route::get('/auth/socialite/github/callback', 'callback')
-        ->name('socialite.callback');
-
+        ->name('password-reset.handle');
 });
+
+Route::controller(SocialAuthController::class)->group(function () {
+    Route::get('/auth/socialite/{driver}', 'redirect')
+        ->name('socialite.redirect');
+    Route::get('/auth/socialite/{driver}/callback', 'callback')
+        ->name('socialite.callback');
+});
+
+
 
 
 

@@ -17,8 +17,6 @@ services:
         depends_on:
             - mysql
         working_dir: /var/www/html
-        environment:
-            APP_ENV: "${APP_ENV}"
         volumes:
             - '.:/var/www/html'
         networks:
@@ -52,6 +50,20 @@ services:
             SERVICE_NAME: mysql
         volumes:
             - './docker/volume/mysql:/var/lib/mysql'
+        networks:
+            - app-network
+
+    mysql-test:
+        image: mysql:8.1
+        container_name: "${APP_NAME}-db_test"
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "33062:3306"
+        environment:
+            MYSQL_DATABASE: "${DB_DATABASE}_test"
+            MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+            SERVICE_NAME: mysql-test
         networks:
             - app-network
 
