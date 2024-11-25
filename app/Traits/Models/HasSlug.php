@@ -47,8 +47,6 @@ trait HasSlug
             $i++;
 
             $slug = $originalSlug . '-' . $i;
-
-            dd($slug);
         }
 
         return $slug;
