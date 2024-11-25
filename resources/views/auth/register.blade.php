@@ -3,7 +3,7 @@
 @section('title', 'Регистрация')
 
 @section('content')
-    <x-forms.auth-form title="Регистрация" action="{{ route('signUp') }}" method="POST">
+    <x-forms.auth-form title="Регистрация" action="{{ route('register.handle') }}" method="POST">
         @csrf
 
         <x-forms.text-input
