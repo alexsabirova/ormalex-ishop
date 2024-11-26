@@ -8,7 +8,6 @@ use Illuminate\Validation\Rules\Password;
 
 class RegisterFormRequest extends FormRequest
 {
-
     public function authorize(): bool
     {
         return auth()->guest();

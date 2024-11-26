@@ -3,9 +3,9 @@
 @section('title', 'Сброс пароля')
 
 @section('content')
-    <x-forms.auth
+    <x-forms.auth-form
         title="Забыли пароль"
-        action="{{ route('forgot-password') }}"
+        action="{{ route('forgot.handle') }}"
         method="POST"
     >
         @csrf
@@ -40,5 +40,5 @@
 
         <x-slot:agreements></x-slot:agreements>
 
-    </x-forms.auth>
+    </x-forms.auth-form>
 @endsection

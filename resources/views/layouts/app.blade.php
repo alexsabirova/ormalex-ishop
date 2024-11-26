@@ -8,7 +8,20 @@
     <!-- Stylesheet -->
     @vite(['resources/css/app.css', 'resources/sass/main.sass', 'resources/js/app.js',])
 </head>
-<body>
-<h1>DONE!</h1>
+<body class="antialiased">
+
+@include('shared.flash')
+
+@include('shared.header')
+
+<main class="py-16 lg:py-20">
+    <div class="container">
+        @yield('content')
+    </div>
+</main>
+
+@include('shared.footer')
+
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>
