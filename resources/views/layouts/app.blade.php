@@ -10,13 +10,18 @@
 </head>
 <body class="antialiased">
 
-@if($message = flash()->get())
-    <div class="{{ $message->class() }} p-5">
-        {{ $message->message() }}
+@include('shared.flash')
+
+@include('shared.header')
+
+<main class="py-16 lg:py-20">
+    <div class="container">
+        @yield('content')
     </div>
-@endif
+</main>
 
-@yield('content')
+@include('shared.footer')
 
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 </body>
 </html>

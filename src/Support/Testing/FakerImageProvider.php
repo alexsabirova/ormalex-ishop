@@ -8,21 +8,22 @@ namespace Support\Testing;
 use Faker\Provider\Base;
 use Illuminate\Support\Facades\Storage;
 
-class FakerImageProvider extends Base
+final class FakerImageProvider extends Base
 {
     public function fixturesImage(string $fixturesDir, string $storageDir): string
     {
+        $storage = Storage::disk('images');
 
-        if(!Storage::exists($storageDir)) {
+        if (!Storage::exists($storageDir)) {
             Storage::makeDirectory($storageDir);
         }
 
         $file = $this->generator->file(
             base_path("tests/Fixtures/images/{$fixturesDir}"),
-            Storage::path($storageDir),
+            $storage->path($storageDir),
             false,
         );
 
-        return '/storage/images' . trim($storageDir, '/') . '/' . $file;
+        return '/storage/images/' . trim($storageDir, '/') . '/' . $file;
     }
 }
