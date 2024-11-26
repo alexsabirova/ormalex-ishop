@@ -6,9 +6,16 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ThumbnailController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+
+Route::get('/storage/images/{dir}/{method}/{size}/{file}', ThumbnailController::class)
+    ->where('method', 'resize|crop|fit')
+    ->where('size', '\d+x\d+')
+    ->where('file', '.+\.(jpg|jpeg|png|gif|bmp)$')
+    ->name('thumbnail');
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/login', 'page')->name('login');
