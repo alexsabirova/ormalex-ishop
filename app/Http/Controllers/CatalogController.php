@@ -39,6 +39,7 @@ class CatalogController extends Controller
                     $category->id
                 );
             })
+            // fix IDE
             ->filtered()
             ->sorted()
             ->paginate(6);
