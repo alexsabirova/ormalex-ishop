@@ -14,7 +14,6 @@ class CatalogServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(FilterManager::class);
     }
 
     /**
@@ -22,9 +21,5 @@ class CatalogServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        app(FilterManager::class)->registerFilters([
-            new PriceFilter(),
-            new BrandFilter(),
-        ]);
     }
 }
