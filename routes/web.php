@@ -9,11 +9,13 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ThumbnailController;
+use App\Http\Middleware\CatalogViewMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
 
 Route::get('/catalog/{category:slug?}', CatalogController::class)
+    ->middleware(CatalogViewMiddleware::class)
     ->name('catalog');
 
 Route::get('/product/{product:slug}', ProductController::class)
