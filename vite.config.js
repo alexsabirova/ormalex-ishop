@@ -4,8 +4,9 @@ import laravel from 'laravel-vite-plugin';
 export default defineConfig({
     css: {
         preprocessorOptions: {
-            scss: {
-                silenceDeprecations: ['legacy-js-api'],
+            sass: {
+                api: 'modern-compiler',
+                silenceDeprecations: ['import'],
             },
         },
     },
