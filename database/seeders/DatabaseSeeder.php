@@ -2,14 +2,13 @@
 
 namespace Database\Seeders;
 
-use App\Models\Product;
 use Database\Factories\BrandFactory;
 use Database\Factories\CategoryFactory;
 use Database\Factories\OptionFactory;
 use Database\Factories\OptionValueFactory;
+use Database\Factories\ProductFactory;
 use Database\Factories\PropertyFactory;
-use Domain\Catalog\Models\Brand;
-use Domain\Catalog\Models\Category;
+use Domain\Product\Models\Product;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -28,12 +27,14 @@ class DatabaseSeeder extends Seeder
             ->count(5)
             ->create();
 
-        CategoryFactory::new()->count(20)
-            ->has(Product::factory(10)
-                ->hasAttached($optionValues)
-                ->hasAttached($properties, function () {
-                    return ['value' => ucfirst(fake()->word())];
-                })
+        CategoryFactory::new()->count(5)
+            ->has(
+                ProductFactory::new()
+                    ->count(10)
+                    ->hasAttached($optionValues)
+                    ->hasAttached($properties, function () {
+                        return ['value' => ucfirst(fake()->word())];
+                    })
             )
             ->create();
     }
