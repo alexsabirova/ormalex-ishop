@@ -1,20 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace Domain\Product\Models;
 
-use Domain\Catalog\Facades\Sorter;
+use App\Jobs\ProductJsonProperties;
 use Domain\Catalog\Models\Brand;
 use Domain\Catalog\Models\Category;
-use Illuminate\Database\Eloquent\Builder;
+use Domain\Product\QueryBuilders\ProductQueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Pipeline\Pipeline;
 use Support\Casts\PriceCast;
 use Support\Traits\Models\HasSlug;
 use Support\Traits\Models\HasThumbnail;
 
+/**
+ * @method static Product|ProductQueryBuilder query()
+ */
 class Product extends Model
 {
     use HasFactory;
@@ -29,37 +31,35 @@ class Product extends Model
         'thumbnail',
         'on_home_page',
         'sorting',
-        'text'
+        'text',
+        'json_properties',
     ];
 
     protected $casts = [
         'price' => PriceCast::class,
+        'json_properties' => 'array',
     ];
+
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::created(function (Product $product) {
+            ProductJsonProperties::dispatch($product)
+            ->delay(now()->addSeconds(10));
+        });
+    }
+
+    public function newEloquentBuilder($query): ProductQueryBuilder
+    {
+        return new ProductQueryBuilder($query);
+    }
 
     protected function thumbnailDir(): string
     {
         return 'products';
     }
 
-    public function scopeFiltered(Builder $query)
-    {
-        return app(Pipeline::class)
-            ->send($query)
-            ->through(filters())
-            ->thenReturn();
-    }
-
-    public function scopeSorted(Builder $query): void
-    {
-        Sorter::run($query);
-    }
-
-    public function scopeHomePage(Builder $query): void
-    {
-        $query->where('on_home_page', true)
-            ->orderBy('sorting')
-            ->limit(6);
-    }
 
     public function brand(): BelongsTo
     {
