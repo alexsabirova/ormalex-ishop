@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Domain\Cart\CartManager;
 use Domain\Catalog\Filters\FilterManager;
 use Domain\Catalog\Models\Category;
 use Domain\Catalog\Sorters\Sorter;
@@ -11,6 +12,13 @@ if (!function_exists('flash')) {
     function flash(): Flash
     {
         return app(Flash::class);
+    }
+}
+
+if (!function_exists('cart')) {
+    function cart(): CartManager
+    {
+        return app(CartManager::class);
     }
 }
 

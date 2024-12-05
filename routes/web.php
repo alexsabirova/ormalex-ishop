@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\SocialAuthController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
@@ -65,6 +66,16 @@ Route::controller(SocialAuthController::class)->group(function () {
     Route::get('/auth/socialite/{driver}/callback', 'callback')
         ->name('socialite.callback');
 });
+
+Route::controller(CartController::class)
+    ->prefix('cart')
+    ->group(function () {
+        Route::get('/', 'index')->name('cart');
+        Route::post('/{product}/add', 'add')->name('cart.add');
+        Route::post('/{item}/quantity', 'quantity')->name('cart.quantity');
+        Route::delete('/{item}/delete', 'delete')->name('cart.delete');
+        Route::delete('/truncate', 'truncate')->name('cart.truncate');
+    });
 
 
 
