@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Closure;
 use Domain\Catalog\Models\Brand;
 use Domain\Product\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;

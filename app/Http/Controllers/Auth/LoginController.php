@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\AfterSessionRegenerated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginFormRequest;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
+use Support\Sessions\SessionRegenerator;
 
 class LoginController extends Controller
 {
@@ -20,24 +22,30 @@ class LoginController extends Controller
 
     public function handle(LoginFormRequest $request): RedirectResponse
     {
+        $old = request()->session()->getId();
+
         if(!auth()->attempt($request->validated())) {
             return back()->withErrors([
                 'email' => 'Учетные данные введены неверно.',
             ])->onlyInput('email');
         }
-        $request->session()->regenerate();
+
+        SessionRegenerator::run();
+
+        event(
+            new AfterSessionRegenerated(
+                $old,
+                request()->session()->getId()
+            )
+        );
 
         return redirect()->intended(route('home'));
     }
 
     public function logout(): RedirectResponse
     {
-        auth()->logout();
+        SessionRegenerator::run(fn() => auth()->logout());
 
-        request()->session()->invalidate();
-
-        request()->session()->regenerateToken();
-
-        return redirect()->route('home');
+        return redirect()->intended(route('home'));
     }
 }

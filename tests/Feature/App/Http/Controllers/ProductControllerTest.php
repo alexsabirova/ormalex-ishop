@@ -19,7 +19,7 @@ class ProductControllerTest extends TestCase
     {
         $product = ProductFactory::new()->createOne();
 
-        $this->get(action(ProductController::class, [$product]))
+        $this->get(action(ProductController::class, $product))
             ->assertOk();
     }
 }

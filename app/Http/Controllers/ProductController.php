@@ -14,19 +14,24 @@ class ProductController extends Controller
     {
         $product->load(['optionValues.option']);
 
-        /*$also = Product::query()
-            ->where(function ($q) use ($product) {
-                $q->whereIn('id', session('also'))
-                ->where('id', '!=', $product->id);
-            })
-            ->get();
+        $viewed = session('viewed', []);
 
-        session()->put('also.' . $product->id, $product->id);*/
+        if(!empty(session('viewed'))) {
+            $viewed = Product::query()
+                ->where(function ($q) use ($product) {
+                    $q->whereIn('id', session('viewed'))
+                        ->where('id', '!=', $product->id);
+                })
+                ->limit(4)
+                ->get();
+        }
+
+        session()->put('viewed.' . $product->id, $product->id);
 
         return view('product.show', [
             'product' => $product,
-            'options' => $product->optionValues->keyValues()
-            //'also' => $also,
+            'options' => $product->optionValues->keyValues(),
+            'viewed' => $viewed,
         ]);
     }
 }
