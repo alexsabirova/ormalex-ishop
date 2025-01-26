@@ -21,9 +21,18 @@ class RegisterFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'min:1', 'max:255'],
+            'name' => ['required', 'string', 'min:2', 'max:255'],
             'email' => ['required', 'email:dns', 'unique:users'],
             'password' => ['required', 'confirmed', Password::defaults()],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Поле "Имя" обязательно к заполнению',
+            'name.min' => 'Поле "Имя" должно содержать как минимум один символ',
+            'email.required' => 'Поле "Email" обязательно к заполнению',
         ];
     }
 
