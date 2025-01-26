@@ -26,9 +26,11 @@ class Product extends Model
     protected $fillable = [
         'slug',
         'title',
+        'preview',
         'brand_id',
         'price',
         'thumbnail',
+        'quantity',
         'on_home_page',
         'sorting',
         'text',
