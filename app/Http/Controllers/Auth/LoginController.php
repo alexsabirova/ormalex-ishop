@@ -30,7 +30,7 @@ class LoginController extends Controller
             ])->onlyInput('email');
         }
 
-        SessionRegenerator::run();
+        //SessionRegenerator::run();
 
         event(
             new AfterSessionRegenerated(
