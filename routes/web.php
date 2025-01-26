@@ -8,8 +8,10 @@ use App\Http\Controllers\Auth\SocialAuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ThumbnailController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Middleware\CatalogViewMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +23,11 @@ Route::get('/catalog/{category:slug?}', CatalogController::class)
 
 Route::get('/product/{product:slug}', ProductController::class)
     ->name('product');
+
+Route::controller(\App\Http\Controllers\ProfileController::class)->group(function () {
+    Route::get('/profile', 'index')->name('profile');
+    Route::post('/profile', 'handle')->name('profile.handle');
+});
 
 Route::get('/storage/images/{dir}/{method}/{size}/{file}', ThumbnailController::class)
     ->where('method', 'resize|crop|fit')
@@ -49,7 +56,6 @@ Route::controller(ForgotPasswordController::class)->group(function () {
         ->name('forgot.handle');
 });
 
-
 Route::controller(ResetPasswordController::class)->group(function () {
     Route::get('/reset-password/{token}', 'page')
         ->middleware('guest')
@@ -72,9 +78,27 @@ Route::controller(CartController::class)
     ->group(function () {
         Route::get('/', 'index')->name('cart');
         Route::post('/{product}/add', 'add')->name('cart.add');
-        Route::post('/{item}/quantity', 'quantity')->name('cart.quantity');
+        Route::patch('/{item}/quantity', 'quantity')->name('cart.quantity');
         Route::delete('/{item}/delete', 'delete')->name('cart.delete');
         Route::delete('/truncate', 'truncate')->name('cart.truncate');
+    });
+
+Route::controller(WishlistController::class)
+    ->prefix('wishlist')
+    ->group(function () {
+        Route::get('/', 'index')->name('wishlist');
+        Route::post('/{product}/add', 'add')->name('wishlist.add');
+        Route::delete('/{item}/delete', 'delete')->name('wishlist.delete');
+    });
+
+Route::controller(OrderController::class)
+    ->prefix('order')
+    ->group(function () {
+        Route::get('/', 'index')->name('order');
+        Route::post('/', 'handle')->name('order.handle');
+
+        Route::get('/orders-list', 'list')->name('orders.list');
+        Route::get('/item-{order}', 'show')->name('order.item');
     });
 
 
