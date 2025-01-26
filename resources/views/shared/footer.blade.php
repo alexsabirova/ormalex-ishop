@@ -3,25 +3,25 @@
         <div class="flex flex-wrap lg:flex-nowrap items-center">
             <div class="footer-logo order-0 basis-full sm:basis-1/2 lg:basis-1/3 shrink-0 text-center sm:text-left">
                 <a href="{{ route('home') }}" class="inline-block" rel="home">
-                    <img src=" {{ Vite::image('logo-dark.svg') }} " class="w-[155px] h-[38px]" alt="Ormalex">
+                    <img src=" {{ Vite::image('logo-origin.svg') }} " class="w-[155px] h-[38px]" alt="Ormalex">
                 </a>
             </div><!-- /.footer-logo -->
             <div class="footer-copyright order-2 lg:order-1 basis-full lg:basis-1/3 mt-8 lg:mt-0">
-                <div class="text-[#999] text-xxs xs:text-xs sm:text-sm text-center">Ormalex, {{now()->year }} © Все
+                <div class="text-[#999] text-xxs xs:text-xs sm:text-sm text-center">Компания ООО "ОРМАЛЕКС", {{now()->year }} © Все
                     права защищены.
                 </div>
             </div><!-- /.footer-copyright -->
             <div class="footer-social order-1 lg:order-2 basis-full sm:basis-1/2 lg:basis-1/3 mt-8 sm:mt-0">
                 <div class="flex flex-wrap items-center justify-center sm:justify-end space-x-6">
-                    <a href="#" class="inline-flex items-center text-white hover:text-pink" target="_blank"
+                    <a href="https://www.youtube.com/user/AskonaVideo" class="inline-flex items-center text-white hover:text-pink" target="_blank"
                        rel="nofollow noopener">
                         <img class="h-5 lg:h-6" src="{{ Vite::image('icons/youtube.svg') }}" alt="YouTube">
-                        <span class="ml-2 lg:ml-3 text-xxs font-semibold">YouTube</span>
+                        <span class="ml-2 lg:ml-3 text-xxs font-semibold text-neutral-600">YouTube</span>
                     </a>
-                    <a href="#" class="inline-flex items-center text-white hover:text-pink" target="_blank"
+                    <a href="https://t.me/askona_official" class="inline-flex items-center text-white hover:text-pink" target="_blank"
                        rel="nofollow noopener">
                         <img class="h-5 lg:h-6" src="{{ Vite::image('icons/telegram.svg') }}" alt="Telegram">
-                        <span class="ml-2 lg:ml-3 text-xxs font-semibold">Telegram</span>
+                        <span class="ml-2 lg:ml-3 text-xxs font-semibold text-neutral-600">Telegram</span>
                     </a>
                 </div>
             </div>
@@ -34,7 +34,7 @@
         <div class="mmenu-heading flex items-center pt-6 xl:pt-12">
             <div class="shrink-0 grow">
                 <a href="{{ route('home') }}" rel="home">
-                    <img src="{{ Vite::image('logo-dark.svg') }}" class="w-[148px] md:w-[201px] h-[36px] md:h-[50px]"
+                    <img src="{{ Vite::image('logo-origin.svg') }}" class="w-[148px] md:w-[201px] h-[36px] md:h-[50px]"
                          alt="CutCode">
                 </a>
             </div>
@@ -70,15 +70,15 @@
                     </div>
                 </div>
                 <nav class="flex flex-col mt-8">
-                    <a href="index.html" class="self-start py-1 text-dark hover:text-pink text-md font-bold">Главная</a>
-                    <a href="catalog.html" class="self-start py-1 text-dark hover:text-pink text-md font-bold">Каталог
+                    <a href="{{ route('home') }}" class="self-start py-1 text-dark hover:text-pink text-md">Главная</a>
+                    <a href="{{ route('catalog') }}" class="self-start py-1 text-dark hover:text-pink text-md">Каталог
                         товаров</a>
-                    <a href="orders.html" class="self-start py-1 text-dark hover:text-pink text-md font-bold">Мои заказы</a>
-                    <a href="cart.html" class="self-start py-1 text-dark hover:text-pink text-md font-bold">Корзина</a>
+                    <a href="{{ route('orders.list') }}" class="self-start py-1 text-dark hover:text-pink text-md">Мои заказы</a>
+                    <a href="{{ route('cart') }}" class="self-start py-1 text-dark hover:text-pink text-md">Корзина</a>
                 </nav>
             @elseguest
                 <a href="{{ route('login') }}" class="profile flex items-center mr-12">
-                    <svg class="profile-icon w-8 h-8 text-purple" xmlns="http://www.w3.org/2000/svg"
+                    <svg class="profile-icon w-8 h-8 text-teal-600" xmlns="http://www.w3.org/2000/svg"
                          xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" width="1em" height="1em"
                          preserveAspectRatio="xMidYMid meet" viewBox="0 0 32 32">
                         <defs/>

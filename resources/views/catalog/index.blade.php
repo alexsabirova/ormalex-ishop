@@ -4,13 +4,13 @@
 
 @section('content')
     <!-- Breadcrumbs -->
-    <ul class="breadcrumbs flex flex-wrap gap-y-1 gap-x-4 mb-6">
-        <li><a href="{{ route('home') }}" class="text-body hover:text-pink text-xs">Главная</a></li>
-        <li><a href="{{ route('catalog') }}" class="text-body hover:text-pink text-xs">Каталог</a></li>
+    <ul class="breadcrumbs flex flex-wrap gap-y-1 gap-x-4 mb-6 pt-10">
+        <li><a href="{{ route('home') }}" class="text-gray hover:text-pink text-xs">Главная</a></li>
+        <li><a href="{{ route('catalog') }}" class="text-teal-700 hover:text-pink text-xs">Каталог</a></li>
 
         @if($category->exists)
             <li>
-                <span class="text-body text-xs">
+                <span class="text-teal-600 text-xs">
                     {{ $category->title }}
                 </span>
             </li>
@@ -23,11 +23,24 @@
 
         <!-- Categories -->
         <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-5 mt-8">
-            @each('catalog.shared.category', $categories, 'item')
+            @each('catalog.shared.category', $categories, 'category')
         </div>
     </section>
 
-    <section class="mt-16 lg:mt-24">
+    @if($category->exists)
+        <div class="flex mt-9 py-9 px-6 rounded-lg bg-gradient-to-r from-amber-50 to-yellow-200">
+            <div class="max-xl:hidden h-15 md:h-20 px-2 py-1">
+                <img src="{{ $category->makeThumbnail('70x70') }}" class="object-contain w-full h-full" alt="{{ $category->title }}">
+            </div>
+            <div class="px-4">
+                <h3 class="text-teal-700 font-bold text-md ">{{ $category->title }}</h3>
+                <p class="text-gray text-[18px]">{{ $category->text }}</p>
+            </div>
+
+        </div>
+    @endif
+
+    <section class="mt-10 lg:mt-16">
         <!-- Section heading -->
         <h2 class="text-lg lg:text-[42px] font-black">Каталог товаров</h2>
 
@@ -36,13 +49,13 @@
             <!-- Filters -->
             <aside class="basis-2/5 xl:basis-1/4">
                 <form action="{{ route('catalog', $category) }}"
-                      class="overflow-auto max-h-[320px] lg:max-h-[100%] space-y-10 p-6 2xl:p-8 rounded-2xl bg-card">
+                      class="overflow-auto max-h-[320px] lg:max-h-[100%] space-y-10 p-6 2xl:p-8 rounded-2xl bg-neutral-100">
                     <input type="hidden" name="sort" value="{{ request('sort') }}">
                     @foreach(filters() as $filter)
                         {!! $filter !!}
                     @endforeach
                     <div>
-                        <button type="submit" class="w-full !h-16 btn btn-pink">Поиск</button>
+                        <button type="submit" class="w-full !h-16 btn btn-teal">Поиск</button>
                     </div>
 
                     @if(request('filters'))
@@ -70,7 +83,7 @@
                                 </svg>
                             </a>
                             <a href="{{ filter_url($category, ['view' => 'list']) }}"
-                               class="@if(is_catalog_view('list')) text-pink pointer-events-none @else inline-flex items-center justify-center w-10 h-10 rounded-md bg-card text-white hover:text-pink @endif"
+                               class="@if(is_catalog_view('list')) text-teal-600 pointer-events-none @else inline-flex items-center justify-center w-10 h-10 rounded-md bg-teal-600 text-white hover:text-pink @endif"
                             >
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
                                      viewBox="0 0 52 52">
@@ -81,20 +94,20 @@
                             </a>
                         </div>
 
-                        <div class="text-body text-xxs sm:text-xs">
+                        <div class="text-gray text-xxs sm:text-xs">
                             Найдено: {{ $products->total() }} товаров
                         </div>
                     </div>
                     <div x-data="{sort: '{{ filter_url($category, ['sort' => request('sort')]) }}'}" class="flex flex-col sm:flex-row sm:items-center gap-3">
-                        <span class="text-body text-xxs sm:text-xs">Сортировать по</span>
+                        <span class="text-dark text-xxs sm:text-xs">Сортировать</span>
 
                         <select
                             name="sort"
                             x-model="sort"
                             x-on:change="window.location = sort"
-                            class="form-select w-full h-12 px-4 rounded-lg border border-body/10 focus:border-pink focus:shadow-[0_0_0_3px_#EC4176] bg-white/5 text-white text-xxs sm:text-xs shadow-transparent outline-0 transition">
+                            class="form-select w-full h-12 px-4 rounded-lg border border-body/50 focus:border-teal-400 focus:shadow-[0_0_0_3px_#00babe] bg-white text-gray text-xxs sm:text-xs shadow-transparent outline-0 transition">
 
-                            <option value="{{ filter_url($category, ['sort' => '']) }}" class="text-dark">умолчанию
+                            <option value="{{ filter_url($category, ['sort' => '']) }}" class="text-dark">по умолчанию
                             </option>
 
                             <option value="{{ filter_url($category, ['sort' => 'price']) }}" class="text-dark">от
@@ -106,7 +119,7 @@
                             </option>
 
                             <option value="{{ filter_url($category, ['sort' => 'title']) }}" class="text-dark">
-                                наименованию
+                                по наименованию
                             </option>
                         </select>
                     </div>
@@ -115,7 +128,7 @@
                 <!-- Products list -->
                 <div
                     class="products grid @if(is_catalog_view('list')) grid-cols-1 gap-y-8 @else grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-x-6 2xl:gap-x-8 gap-y-8 lg:gap-y-10 2xl:gap-y-12 @endif">
-                    @each('product.shared.product' . (is_catalog_view('list') ? '-list' : ''), $products, 'item')
+                    @each('product.shared.product' . (is_catalog_view('list') ? '-list' : ''), $products, 'product')
                 </div>
 
                 <!-- Page pagination -->
