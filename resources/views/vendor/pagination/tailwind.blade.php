@@ -4,7 +4,7 @@
             {{-- Previous Page Link --}}
             @if (!$paginator->onFirstPage())
                 <li>
-                    <a class="block p-3 text-white hover:text-pink text-sm font-black leading-none" rel="prev">&laquo;</a>
+                    <a class="block p-3 text-teal-600 hover:text-teal-400 text-sm font-black leading-none" rel="prev">&laquo;</a>
                 </li>
             @endif
 
@@ -22,13 +22,13 @@
                     @foreach ($element as $page => $url)
                         @if ($page == $paginator->currentPage())
                             <li class="active" aria-current="page">
-                                <span class="block p-3 pointer-events-none text-pink text-sm font-black leading-none">
+                                <span class="block p-3 pointer-events-none text-text-teal-600 text-sm font-black leading-none">
                                     {{ $page }}
                                 </span>
                             </li>
                         @else
                             <li>
-                                <a class="block p-3 text-white hover:text-pink text-sm font-black leading-none" href="{{ $url }}">
+                                <a class="block p-3 text-teal-600 hover:text-teal-400 text-sm font-black leading-none" href="{{ $url }}">
                                     {{ $page }}
                                 </a>
                             </li>
@@ -40,7 +40,7 @@
             {{-- Next Page Link --}}
             @if ($paginator->hasMorePages())
                 <li>
-                    <a class="block p-3 text-white hover:text-pink text-sm font-black leading-none"
+                    <a class="block p-3 text-teal-600 hover:text-teal-600 text-sm font-black leading-none"
                        href="{{ $paginator->nextPageUrl() }}"
                        rel="next"
                     >

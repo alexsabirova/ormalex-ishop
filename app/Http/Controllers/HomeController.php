@@ -22,6 +22,7 @@ class HomeController extends Controller
 
         $products = Product::query()
             ->homePage()
+            ->with('brand')
             ->get();
 
 

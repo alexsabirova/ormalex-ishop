@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Domain\Cart;
 
+
+use Domain\Cart\Contracts\CartIdentityStorageContract;
 use Domain\Cart\Models\Cart;
 use Domain\Cart\Models\CartItem;
 use Domain\Cart\StorageIdentities\FakeIdentityStorage;
-use Domain\Collections\CartIdentityStorageContract;
 use Domain\Product\Models\Product;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

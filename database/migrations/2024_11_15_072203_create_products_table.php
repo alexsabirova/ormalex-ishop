@@ -15,10 +15,14 @@ return new class extends Migration {
             $table->string('slug')
                 ->unique();
             $table->string('title');
+            $table->string('preview')->nullable();
             $table->string('thumbnail')
                 ->nullable();
 
             $table->unsignedInteger('price')
+                ->default(0);
+
+            $table->unsignedInteger('quantity')
                 ->default(0);
 
             $table->foreignIdFor(Brand::class)

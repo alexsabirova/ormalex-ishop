@@ -60,4 +60,8 @@ document.addEventListener('DOMContentLoaded', function() {
 		});
 	});
 
+    document.querySelector('.btn-like').addEventListener('click', function(e) {
+        e.target.closest('.btn-like').classList.toggle('btn-like--toggle');
+    })
+
 });

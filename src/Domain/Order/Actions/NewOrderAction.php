@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Domain\Order\Actions;
+
+use App\Http\Requests\OrderFormRequest;
+use Domain\Auth\Contracts\RegisterNewUserContract;
+use Domain\Auth\DTOs\NewUserDTO;
+use Domain\Order\DTOs\CustomerDTO;
+use Domain\Order\DTOs\OrderDTO;
+use Domain\Order\Models\Order;
+
+final class NewOrderAction
+{
+    public function __invoke(OrderDTO $order, CustomerDTO $customer, bool $createAccount): Order
+    {
+        $registerAction = app(RegisterNewUserContract::class);
+
+        if ($createAccount) {
+            $registerAction(
+                NewUserDTO::make(
+                    $customer->fullName(),
+                    $customer->email,
+                    $order->password
+                )
+            );
+        }
+
+        return Order::query()->create([
+            'user_id' => auth()->id(),
+            'payment_method_id' => $order->payment_method_id,
+            'delivery_type_id' => $order->delivery_type_id,
+            'amount' => (int)$order->amount,
+        ]);
+    }
+}

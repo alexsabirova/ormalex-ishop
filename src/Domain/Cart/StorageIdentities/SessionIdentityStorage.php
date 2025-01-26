@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Domain\Cart\StorageIdentities;
 
-use Domain\Collections\CartIdentityStorageContract;
+use Domain\Cart\Contracts\CartIdentityStorageContract;
 
 class SessionIdentityStorage implements CartIdentityStorageContract
 {
