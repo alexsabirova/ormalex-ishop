@@ -4,21 +4,32 @@ declare(strict_types=1);
 
 namespace Domain\Catalog\Filters;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pipeline\Pipeline;
+
 final class FilterManager
 {
     public function __construct(
-        protected array $items = []
+        protected array $filters = []
     )
     {
     }
 
-    public function registerFilters(array $items): void
+    public function registerFilters(array $filters): void
     {
-        $this->items = $items;
+        $this->filters = $filters;
     }
 
-    public function items(): array
+    public function getFilters(): array
     {
-        return $this->items;
+        return $this->filters;
+    }
+
+    public function execute(Builder $query): Builder
+    {
+        return app(Pipeline::class)
+            ->send($query)
+            ->through($this->getFilters())
+            ->thenReturn();
     }
 }

@@ -12,10 +12,10 @@ final class Sorter
     public const SORT_KEY = 'sort';
 
     public function __construct(
-        protected array $columns = []
+        private readonly array $columns = []
     ){}
 
-    public function run(Builder $query): Builder
+    public function execute(Builder $query): Builder
     {
         $sortData = $this->sortData();
 

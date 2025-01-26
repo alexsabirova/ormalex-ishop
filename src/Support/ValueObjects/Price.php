@@ -20,6 +20,7 @@ final class Price implements Stringable
         private readonly int $value,
         private readonly string $currency = 'RUB',
         private readonly int $precision = 100,
+        private readonly int $discount = 15
     )
     {
         if($value < 0) {
@@ -40,9 +41,20 @@ final class Price implements Stringable
         return $this->value;
     }
 
+    public function discount(): int
+    {
+        return $this->discount;
+    }
+
     public function value(): float|int
     {
         return $this->value / $this->precision;
+    }
+
+    public function old(): string
+    {
+        $old = $this->value / $this->precision + ($this->value / $this->precision  * ($this->discount / 100));
+        return number_format($old, 0, ',', ' ') . ' ' . $this->symbol();
     }
 
     public function currency(): string

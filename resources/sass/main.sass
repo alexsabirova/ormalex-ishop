@@ -16,12 +16,18 @@
 $white:    #FFF
 $purple:   #7843E9
 $pink:     #EC4176
+$teal:     #00babe
 $dark:     #222
+$darkgray: #373737
 $gray:     #454545
+$silver:   #f6f6f6
+$lightgray: #bbbbbb
 $darkblue: #1E1F43
 $body:     #BDBECA
 $trsp:     transparent
 $trs:      .3s ease
+
+
 
 // Imports
 @import mixins
@@ -32,10 +38,18 @@ $trs:      .3s ease
     background-color: $pink
     color: $white
 
-body
+/*body
     min-width: 320px
     background-color: $darkblue
     color: $white
+/*a
+    transition: $trs
+
+
+body
+    min-width: 320px
+    background-color: $white
+    color: #222
 a
     transition: $trs
 
@@ -68,7 +82,8 @@ textarea._is-error
             pointer-events: none
             border-color: $pink
             background-color: $pink
-            color: $white
+            //color: $white
+            color: $gray
 
 // Product card
 .product-card
@@ -80,3 +95,22 @@ textarea._is-error
         &:hover
             > img
                 transform: scale(1.1)
+
+.btn-like .svg-inactive_like
+    display: block
+
+.btn-like .svg-active_like
+    display: none
+
+.btn-like .btn-like--toggle .svg-inactive_like
+    display: none
+
+.btn-like .btn-like--toggle .svg-inactive_like
+    display: block
+
+.home-img
+    width: 100%
+    height: auto
+    position: absolute
+    right: 0
+

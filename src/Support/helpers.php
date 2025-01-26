@@ -2,15 +2,39 @@
 
 declare(strict_types=1);
 
+use Domain\Cart\CartManager;
 use Domain\Catalog\Filters\FilterManager;
 use Domain\Catalog\Models\Category;
 use Domain\Catalog\Sorters\Sorter;
+use Domain\Order\OrderManager;
+use Domain\Wishlist\WishlistManager;
 use Support\Flash\Flash;
 
 if (!function_exists('flash')) {
     function flash(): Flash
     {
         return app(Flash::class);
+    }
+}
+
+if (!function_exists('cart')) {
+    function cart(): CartManager
+    {
+        return app(CartManager::class);
+    }
+}
+
+if (!function_exists('order')) {
+    function order(): OrderManager
+    {
+        return app(OrderManager::class);
+    }
+}
+
+if (!function_exists('wishlist')) {
+    function wishlist(): WishlistManager
+    {
+        return app(WishlistManager::class);
     }
 }
 
@@ -24,7 +48,7 @@ if(!function_exists('sorter')) {
 if (!function_exists('filters')) {
     function filters(): array
     {
-        return app(FilterManager::class)->items();
+        return app(FilterManager::class)->getFilters();
     }
 }
 

@@ -30,21 +30,20 @@
 		//background-color: darken($purple, 5%)
 		background-color: color.adjust($purple, $lightness: -5%, $space: hsl)
 
-.btn-pink
-	box-shadow: 0px 3px 0px rgba($pink, 0.3)
-	background-color: $pink
+.btn-teal
+	box-shadow: 0px 3px 0px rgba($teal, 0.3)
+	background-color: $teal
 	color: $white
 	&:hover
-		//background-color: darken($pink, 10%)
-		background-color: color.adjust($pink, $lightness: -10%, $space: hsl)
+		//background-color: darken($teal, 10%)
+		background-color: color.adjust($teal, $lightness: -10%, $space: hsl)
 
 .btn-outline
-	border: 1px solid $pink
-	color: $white
+	border: 1px solid $teal
+	color: teal
 	&:hover
-		//background-color: darken($pink, 10%)
-		background-color: color.adjust($pink, $lightness: -10%, $space: hsl)
-
+		//background-color: darken($teal, 10%)
+		background-color: color.adjust(teal, $lightness: +80%, $space: hsl)
 
 // Form
 input[type="search"]::-webkit-search-decoration,
@@ -91,11 +90,11 @@ input[type=number]
 	background-position: right 8px center
 	background-size: 20px
 	> *
-		background-color: $darkblue
-		color: $white
+		background-color: $silver
+		color: $gray
 
 // Checkbox
-.form-checkbox
+/*.form-checkbox
 	position: relative
 	display: flex
 	flex-wrap: wrap
@@ -138,10 +137,10 @@ input[type=number]
 			&::after
 				border-color: $pink
 	input:checked + label::after
-		opacity: 1
+		opacity: 1 */
 
 // Radio
-.form-radio
+//.form-radio
 	position: relative
 	display: flex
 	flex-wrap: wrap
@@ -199,7 +198,7 @@ input[type=number]
 			background-color: $pink
 		&::after
 			opacity: 1
-
+//
 
 // Accrodion
 .accordion
@@ -247,4 +246,4 @@ article
 				height: 12px
 				margin-right: 12px
 				border-radius: 3px
-				background-color: $pink
+				background-color: $teal
